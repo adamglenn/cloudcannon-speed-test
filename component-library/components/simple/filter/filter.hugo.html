@@ -1,0 +1,26 @@
+<div class="c-filter">
+    {{ if .include_filter }}
+        {{ $name := lower (replace .name " " "-") }}
+        <div class="option-combo {{ $name }} {{ if not .button.text }}mb-4{{ end }}">
+            <fieldset>
+                <legend class="h6 small text-uppercase mb-1 helvetica-neue-bold">Filter by {{ .name }}:</legend>
+                <div class="filter option-set js-radio-button-group" data-filter-group="{{ $name }}">
+                    <div class="form-check">
+                        <input class="form-check-input active selected" type="radio" name="{{ $name }}" id="radioAny" data-filter-value="" checked>
+                        <label class="form-check-label" for="radioAny">Any</label>
+                    </div>
+                    {{ range .inputs }}
+                        {{ if . }}
+                            {{ $input := replace (replace . "’" "") " " "-" }}
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="{{ $name }}" id="radio{{ $input }}" data-filter-value=".{{ lower $input }}">
+                                <label class="form-check-label" for="radio{{ $input }}">{{ . }}</label>
+                            </div>
+                        {{ end }}
+                    {{ end }}
+                </div>
+            </fieldset>
+        </div>
+        {{ if .button.text }}<p class="mb-4"><a href="{{ .button.link }}">{{ .button.text }}</a></p>{{ end }}
+    {{ end }}
+</div>

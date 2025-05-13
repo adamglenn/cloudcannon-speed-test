@@ -1,0 +1,31 @@
+{{ $src := .background_image }}
+
+{{ if not site.Params.env_bookshop_live }}
+    {{ $image := "" }}
+    {{/*  Get the image, either from its remote or local source  */}}
+    {{ if hasPrefix $src "http"}}
+        {{ $image = resources.GetRemote $src }}
+    {{ else }}
+        {{ $image = resources.Get $src }}
+    {{ end }}
+
+    {{/* Resize images and add them to a variable  */}}
+    {{ if and $image (ne $image.MediaType.SubType "svg") }}{{ $src = ($image.Resize "1920x1280 webp").RelPermalink }}{{ end }}
+{{ end }}
+
+<section id="{{ .name }}" aria-labelledBy="{{ .name }}-label" class="py-5 text-center bg-wvu-blue text-white wvu-bg-topo-light" style="background-image: url({{ $src }})">
+    <div class="c-action-hero container position-relative wvu-z-index-content">
+        <div class="row">
+            {{ if .full_width_or_backpage }}<div class="col-md-8 mx-auto">{{ end }}
+
+                {{ partial "bookshop" (slice "generic/heading" (dict "text" .heading.text "name" (print .name "-label") "hierarchy" .heading.hierarchy "classes" "display-2 wvu-shout wvu-bar wvu-bar--center wvu-bar--bottom") ) }}
+
+
+                <p class="lead pb-2">{{ .body_text }}</p>
+                {{ partial "bookshop" (slice "generic/button" .button ) }}
+                <p class="mt-2 mb-0">{{ .secondary_link.pre_text }} <a href="{{ .secondary_link.link_url }}" class="text-wvu-gold">{{ .secondary_link.link_text | safeHTML }}</a></p>
+
+            {{ if .full_width_or_backpage }}</div>{{ end }}
+        </div>
+    </div>
+</section>

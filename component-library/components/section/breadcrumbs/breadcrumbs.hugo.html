@@ -1,0 +1,31 @@
+{{ if .include_breadcrumbs }}
+  {{ $breadcrumbLinkClasses := .link_classes }}
+  {{ $breadcrumbPosition := "position-absolute" }}
+
+  {{ $componentClassesBreadcrumbs := "wvu-z-index-content wvu-slash-list ps-0 mb-0 d-inline-block " }}
+
+  <section class="wvu-breadcrumbs py-2 w-100 {{ $breadcrumbPosition }} wvu-z-index-breadcrumbs" aria-label="Breadcrumb Links">
+    <div class="container position-relative small">
+      <div>
+        <div class="{{ $breadcrumbLinkClasses }} d-inline-block">
+          <ul class="wvu-z-index-content wvu-slash-list ps-0 mb-0 d-inline-block ">
+              <li><a href="{{ ((index site.Data.nav.nav_links 0).link) }}">{{ ((index site.Data.nav.nav_links 0).text) }}</a></li>
+              {{ $breadcrumb := split (replaceRE `\/[0-9]{4}\/[0-9]{2}\/[0-9]{2}` "" (trim .rel_permalink "/" )) "/" }}
+              {{ $crumb_link := "/" }}
+              {{ $rel_permalink := .rel_permalink }}
+              {{ range $breadcrumb }}
+                  {{ $crumb_link = print $crumb_link . "/" }}
+                  {{ if ne $rel_permalink $crumb_link }}
+                    <li><a href="{{ $crumb_link }}">{{ title (replace . "-" " ") }}</a></li>
+                  {{ else }}
+                    <li class="active">{{ title (replace . "-" " ") }}</li>
+                  {{ end }}
+              {{ end }}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+{{ else if site.Params.env_bookshop_live }}
+  <div></div>
+{{ end }}

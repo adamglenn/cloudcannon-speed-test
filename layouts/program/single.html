@@ -1,0 +1,182 @@
+{{ define "main" }}
+    {{ partial "bookshop_bindings" `(dict  "name" "backpage-header-1-label" "heading" .Params.title )` }}
+    {{ partial "bookshop" (slice "section/simple-hero" (dict "name" "article-hero-1" "heading" .Params.title )) }}
+
+    <section class="py-5 bg-light">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-3 mb-4">
+              <div id="options" class="clearfix combo-filters">
+                <div class="clearfix">
+                    {{ partial "bookshop_bindings" `(dict "name" "Program Type" "inputs" (slice "Bachelor’s" "Master’s" "Doctoral" "Certificate") "include_filter" .Params.enable_program_type_filter "button" .Params.program_filter_button )` }}
+                    {{ partial "bookshop" (slice "simple/filter" (dict "name" "Program Type" "inputs" (slice "Bachelor’s" "Master’s" "Doctoral" "Certificate") "include_filter" .Params.enable_program_type_filter "button" .Params.program_filter_button ) ) }}
+      
+                    {{ partial "bookshop_bindings" `(dict "name" "Delivery Option" "inputs" (slice "In Person" "Online") "include_filter" .Params.enable_delivery_method_filter)` }}
+                    {{ partial "bookshop" (slice "simple/filter" (dict "name" "Delivery Option" "inputs" (slice "In Person" "Online") "include_filter" .Params.enable_delivery_method_filter ) ) }}
+      
+                    {{ partial "bookshop_bindings" `(dict "name" "School" "inputs" .Params.schools "include_filter" .Params.enable_school_filter)` }}
+                    {{ partial "bookshop" (slice "simple/filter" (dict "name" "School" "inputs" .Params.schools "include_filter" .Params.enable_school_filter ) ) }}
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-9">
+                {{/*  Uncomment the following line if/when url becomes an input from the file  */}}
+                {{/*  {{ partial "bookshop" (slice "generic/collection-labels-tooltip" (dict "text" "The program cards are not live editable" ) ) }}  */}}
+                <div id="container" class="grid isotope">
+                    {{ $url := "https://f09bec8ldd.execute-api.us-east-1.amazonaws.com/stable/programs?college=CAHS&type=major,certificate&sortby=title,typeOrder,hepcLevelOrder&projection=superthin" }}
+                    {{ $data := getJSON $url }}
+                    {{ range $data }}
+                        {{ $webAddress := "" }}
+
+                        {{ if .webAddressAdmissions }}
+                            {{ $webAddress = .webAddressAdmissions }}
+                        {{ else if .webAddressCourseCatalog }}
+                            {{ $webAddress = .webAddressCourseCatalog }}
+                        {{ end }}
+            
+                        {{ $programType := lower (replace (replace .hepcLevel.title "'" "") " " "-") }}
+                        {{ $school := lower (replace .division.title " " "-") }}
+                        {{ if eq .degreeDesignation.abbreviation "BMDS" }}
+                            {{ $school = "school-of-sport-sciences school-of-education school-of-counseling-and-well-being" }}
+                        {{ end }}
+                        {{ $majorMinor := lower (replace (replace .type.title "'" "-") " " "-") }}
+                        {{ $collegeOrSchool := lower (replace (replace .collegeOrSchool.title "'" '-') " " "-") }}
+
+                        <div class='w-100 mb-3 element-item 
+                                    {{ $programType }} 
+                                    {{ $school }} 
+                                    {{ .type.title }} 
+                                    {{ if ne $majorMinor "minor" }}non-minor{{ end }} 
+                                    {{ $collegeOrSchool }} 
+                                    {{ $majorMinor }} 
+                                    {{ range .courseDeliveryOptions }}
+                                        {{ if ne . "Online" }}in-person{{ else }}online{{ end }}
+                                    {{ end }}'
+                                    id="{{ .slug }}" 
+                                    data-include-minor='{{ if eq .hepcLevel.title "Minor" }}show-minor{{ else }}hide-minor{{ end }}' 
+                                    data-program-type='{{ $programType }}' 
+                                    data-school='{{ $collegeOrSchool }}' 
+                                    data-delivery-option='{{ range .courseDeliveryOptions }}{{ if ne . "Online" }}in-person{{ else }}online{{ end }}{{ end }}'>
+        
+                            <div class="pt-1 bg-wvu-gold">
+                                <div class="bg-white">
+                                    <div class="row align-items-stretch">
+                                        <div class="col-lg">
+                                            <div class="px-3 pt-3 pb-2 px-xl-4 pt-xl-4 pb-xl-3 bg-white h-100">
+                                                {{ if .division.title }}
+                                                    <div class="helvetica-neue-condensed-black mb-2">
+                                                        {{ .division.title }}
+                                                    </div>
+                                                {{ end }}
+                        
+                                                <h2 class="mb-0 h1 text-wvu-blue">
+                                                    {{ if $webAddress }}
+                                                        <a href="{{ $webAddress }}" class="text-decoration-none text-wvu-blue">{{ .title }}{{ if ne .courseDeliveryOptions "Online" }}<span class="visually-hidden"> (Online)</span>{{ end }}<span class="visually-hidden"> {{ .degreeDesignation.title }}</span></a>
+                                                    {{ else }}
+                                                        {{ .title }}
+                                                    {{ end }}
+                                                </h2>
+                        
+                                                {{ if .degreeDesignation.title }}
+                                                    <div class="helvetica-neue-light text-uppercase mb-1">{{ replace .degreeDesignation.title "'" '’' }}</div>
+                                                {{ else }}
+                                                    <div class="helvetica-neue-light text-uppercase mb-1">{{ replace .type.title "'" '’' }}</div>
+                                                {{ end }}
+
+                                                {{ range .courseDeliveryOptions }}
+                                                    {{ if eq . "Online" }}
+                                                        <div class="badge bg-primary"><span class="fa-solid fa-laptop" aria-hidden="true"></span> Online</div>
+                                                    {{ end }}
+                                                {{ end }}
+
+                                                <div class="mt-3">
+                                                    <!-- descriptionTeaser has a <p> tag / html -->
+                                                    {{ .descriptionTeaser | markdownify }}
+                            
+                                                    {{ if and .areasOfEmphasis (ge (.areasOfEmphasis | len ) 0) }}
+                                                        <h3 class="border-bottom border-light h5 mt-3">Areas of Emphasis</h3>
+                                                        <ul class="list-unstyled">
+                                                            {{ range .areasOfEmphasis }}
+                                                                <li><span class="fa-solid fa-angle-right text-wvu-gold" aria-hidden="true"></span> {{ .title }}</li>
+                                                            {{ end }}
+                                                        </ul>
+                                                    {{ end }}
+                                                </div>
+                    
+                                            </div>
+                                        </div>
+                    
+                                        {{ if $webAddress }}
+                                            <div class="col-lg-4">
+                                                <div class="bg-white p-3 py-lg-4 pl-lg-0 pr-lg-4 h-100">
+                                                {{ if or (strings.Contains $webAddress "https://online.wvu.edu/") (eq .degreeDesignation.abbreviation "BMDS") }}
+                                                    <div class="btn-group-vertical w-100 shadow-sm">
+                                                        <a class="btn btn-light text-start w-100 d-flex align-items-center" href="{{ $webAddress }}">
+                                                            <span class="fa-solid fa-external-link-alt text-center" aria-hidden="true" style="width: 2rem;"></span> View Program Page<span class="visually-hidden">: {{ .title }}</span>
+                                                        </a>
+                                                    </div>
+                                                {{ else if (strings.Contains $webAddress "http://catalog.wvu.edu/") }}
+                                                    <div class="btn-group-vertical w-100 shadow-sm">
+                                                    <a class="btn btn-light text-start w-100 d-flex align-items-center" href="{{ $webAddress }}">
+                                                        <span class="fa-solid fa-external-link-alt text-center" aria-hidden="true" style="width: 2rem;"></span>
+                                                        View in Course Catalog
+                                                    </a>
+                                                    </div>
+                                                {{ else }}
+                                                    <div class="btn-group-vertical w-100 shadow-sm">
+                                                    <a class="btn btn-light text-start w-100 d-flex align-items-center" href="{{ .webAddressAdmissions }}#wvu-main-content">
+                                                        <span class="fa-solid fa-file-alt text-center" aria-hidden="true" style="width: 2rem;"></span> Overview
+                                                    </a>
+                                                    <a class="btn btn-light text-start w-100 d-flex align-items-center" href="{{ .webAddressAdmissions }}#degree-plan">
+                                                        <span class="fa-solid fa-clipboard-list text-center" aria-hidden="true" style="width: 2rem;"></span> Your Degree Plan
+                                                    </a>
+                                                    <a class="btn btn-light text-start w-100 d-flex align-items-center" href="{{ .webAddressAdmissions }}#requirements">
+                                                        <span class="fa-solid fa-check-square text-center" aria-hidden="true" style="width: 2rem;"></span> Admission Requirements
+                                                    </a>
+                                                    {{ if eq .hepcLevelKey "bachelor" }}
+                                                        <a class="btn btn-light text-start w-100 d-flex align-items-center" href="{{ .webAddressAdmissions }}#tuition">
+                                                        <span class="fa-solid fa-dollar-sign text-center" aria-hidden="true" style="width: 2rem;"></span> Tuition and Aid
+                                                        </a>
+                                                    {{ end }}
+                                                    {{ if .hasCareers }}
+                                                        <a class="btn btn-light text-start w-100 d-flex align-items-center" href="{{ .webAddressAdmissions }}#careers">
+                                                        <span class="fa-solid fa-user-tie text-center" aria-hidden="true" style="width: 2rem;"></span> Careers and Outcomes
+                                                        </a>
+                                                    {{ end }}
+                                                    {{ if .hasFAQs }}
+                                                        <a class="btn btn-light text-start w-100 d-flex align-items-center" href="{{ .webAddressAdmissions }}#faqs">
+                                                        <span class="fa-solid fa-question-circle text-center" aria-hidden="true" style="width: 2rem;"></span> Frequently Asked Questions
+                                                        </a>
+                                                    {{ end }}
+                                                    {{ if .hasProfiles }}
+                                                        <a class="btn btn-light text-start w-100 d-flex align-items-center" href="{{ .webAddressAdmissions }}#community">
+                                                        <span class="fa-solid fa-users text-center" aria-hidden="true" style="width: 2rem;"></span> Meet Your Community
+                                                        </a>
+                                                    {{ end }}
+                                                    {{ if .hasPlaces }}
+                                                        <a class="btn btn-light text-start w-100 d-flex align-items-center" href="{{ .webAddressAdmissions }}#places">
+                                                        <span class="fa-solid fa-university text-center" aria-hidden="true" style="width: 2rem;"></span> Places and Spaces
+                                                        </a>
+                                                    {{ end }}
+                                                    {{ if ne .degreeDesignation.abbreviation "BMDS" }}
+                                                        <a class="btn btn-light text-start w-100 d-flex align-items-center" href="{{ .webAddressAdmissions }}#learning">
+                                                        <span class="fa-solid fa-walking text-center" aria-hidden="true" style="width: 2rem;"></span> Learn By Doing
+                                                        </a>
+                                                    {{ end }}
+                                                    </div>
+                                                {{ end }}
+                                                </div>
+                                            </div>
+                                        {{ end }}
+                                    </div>
+                                </div>
+                            </div> 
+                        </div>
+                    {{ end }}
+                </div>
+            </div>
+          </div>
+        </div>
+    </section>
+{{ end }}

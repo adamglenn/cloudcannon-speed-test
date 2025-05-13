@@ -1,0 +1,36 @@
+{{ if .major }}
+    <p class="c-profile-info small helvetica-neue-light mb-0">
+      <span class="text-uppercase">
+        {{ if .major }}
+          {{ .major }}
+        {{ end }}
+      </span>
+    </p>
+{{ end }}
+{{ if .graduation_year }}
+    <p class="c-profile-info small helvetica-neue-light mb-0">
+      <span class="text-uppercase">
+        {{ if .graduation_year }}
+          {{ .graduation_year }}
+        {{ end }}
+      </span>
+    </p>
+{{ end }}
+{{ if .role }}
+    <p class="c-profile-info small helvetica-neue-light mb-0">
+      <span class="text-uppercase">
+        {{ if .role }}
+          {{ .role }}
+        {{ end }}
+      </span>
+    </p>
+{{ end }}
+{{ if .organization }}
+    <p class="c-profile-info small helvetica-neue-light mb-0">
+      <span class="text-uppercase">
+        {{ if .organization }}
+          {{ .organization }}
+        {{ end }}
+      </span>
+    </p>
+{{ end }}

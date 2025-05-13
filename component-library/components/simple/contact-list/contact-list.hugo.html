@@ -1,0 +1,47 @@
+{{ $rowClasses := "justify-content-center" }}
+{{ $itemClasses := "mb-4 text-start" }}
+{{ $itemButtonClasses := "" }}
+
+{{ $component := .}}
+<div class="row {{ $rowClasses }}">
+    <div class="col-md-8">
+
+        {{ range sort (where site.RegularPages "Section" "==" $component.collection) ".Params.name" "desc" }}
+            <div class="{{ $itemClasses }}">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="mb-2 position-relative">
+                        {{ partial "bookshop" (slice "generic/image" (dict "classes" "rounded-circle shadow mb-2" "src" .Params.profile_image.url "alt" .Params.profile_image.alt "size" "200x200" )) }}
+                    </div>
+                </div>
+
+                <div class="col-lg-9">
+                    {{ partial "bookshop" (slice "generic/heading" (dict "text" .Params.name "name" (print $component.name "-label") "hierarchy" "h2" "classes" "card-title h2 d-block wvu-shout wvu-bar mb-2 text-decoration-none text-wvu-blue") ) }}
+
+                    <div class="mb-2">
+                        <p>
+                            <span class="d-block helvetica-neue-bold text-uppercase">{{ .Title }}</span>
+                            {{ if .Params.organization }}
+                                <span class="d-block helvetica-neue-light">{{ .Params.organization }}</span>
+                            {{ end }}
+                        </p>
+
+                        {{ partial "bookshop" (slice "simple/contact-info" (dict "contact_details" (dict "phone" .Params.contact_details.phone "email" .Params.contact_details.email "office" .Params.contact_details.office "office_url" .Params.contact_details.office_url ) "border" false "top_margin" "")) }}
+                    </div>
+
+                {{- if .Params.description }}
+                    <p>
+                        {{ .Params.description }}
+                    </p>
+                {{- end }}
+
+                {{ if $component.button_text }}
+                    {{ partial "bookshop" (slice "generic/button" (dict "style" "primary" "size" "sm" "text" $component.button_text "link" .RelPermalink )) }}
+                {{ end }}
+                </div>
+            </div>
+            </div>
+        {{ end }}
+
+    </div>
+</div>

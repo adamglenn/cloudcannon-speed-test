@@ -1,0 +1,47 @@
+<div class="c-contact-info">  
+  {{ if and .contact_details (or .contact_details.phone .contact_details.fax .contact_details.email .contact_details.office .contact_details.website .contact_details.cv_download_url) }}
+    <div class="{{ if .border }} mb-3 p-3 border rounded{{ end }} {{ .top_margin }}">
+      {{ if .contact_details.phone }}
+        <span class="d-block position-relative ps-2">
+          <span aria-hidden="true" class="fa-solid fa-phone ms-n2 position-absolute" style="top: 4px;"></span>
+          <a class="d-block ms-1" href="tel:{{ .contact_details.phone }}">{{ .contact_details.phone }}</a>
+        </span>
+      {{ end }}
+      {{ if .contact_details.fax }}
+        <span class="d-block position-relative ps-2">
+          <span aria-hidden="true" class="fa-solid fa-fax ms-n2 position-absolute" style="top: 4px;"></span>
+          <a class="d-block ms-1" href="tel:{{ .contact_details.fax }}">{{ .contact_details.fax }}</a>
+        </span>
+      {{ end }}
+      {{ if .contact_details.email }}
+        <span class="d-block position-relative ps-2">
+          <span aria-hidden="true" class="fa-solid fa-envelope ms-n2 position-absolute" style="top: 4px;"></span>
+          <a class="d-block ms-1" href="mailto:{{ .contact_details.email }}">{{ .contact_details.email }}</a>
+        </span>
+      {{ end }}
+      {{ if .contact_details.office }}
+        <span class="d-block position-relative ps-2">
+          <span aria-hidden="true" class="fa-solid fa-building ms-n2 position-absolute" style="top: 4px;"></span>
+            {{ if .contact_details.office_url }}
+              <a class="d-block ms-1" href="{{ .contact_details.office_url }}">{{ .contact_details.office }}</a>
+            {{ else }}
+              <span class="d-block ms-1">{{ .contact_details.office }}</span>
+            {{ end }}
+        </span>
+      {{ end }}
+      {{ if .contact_details.website }}
+        <span class="d-block position-relative ps-2">
+          <span aria-hidden="true" class="fa-solid fa-link ms-n2 position-absolute" style="top: 4px;"></span>
+          <a class="d-block ms-1" href="{{ .contact_details.website }}">Website<span class="visually-hidden">: {{ .RelPermalink }}</span></a>
+        </span>
+      {{ end }}
+
+      {{/*  {{ for file in files.all }}
+        <a href="{{ file.download_url }}" class="btn btn-sm btn-primary mt-1"><span aria-hidden="true" class="fa-solid fa-file-pdf"></span> Download CV</a>
+      {{ endfor }}  */}}
+      {{ if .contact_details.cv_download_url }}
+          <a href="{{ .contact_details.cv_download_url }}" class="btn btn-sm btn-primary mt-1"><span aria-hidden="true" class="fa-solid fa-file-pdf"></span> Download CV</a>
+      {{ end }}
+    </div>
+  {{ end }}
+</div>  

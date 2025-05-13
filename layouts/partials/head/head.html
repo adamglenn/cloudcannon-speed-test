@@ -1,0 +1,39 @@
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ .Title }} at West Virginia University</title>
+
+    <link rel="preconnect" href="https://cdn.fonts.net">
+    <link rel="preconnect" href="https://static.wvu.edu">
+    <link rel="preconnect" href="https://kit.fontawesome.com">
+
+
+    {{/*
+      <!-- Helvetica Neue Roman, Italic, Bold, Bold Italic, Light, & Condensed Black + -->
+      <!-- Iowan Old Style Roman, Italic, Black, & Black Italic web font from monotype.com. -->
+      <!-- Valid for *.wvu.edu, *.wvutech.edu, *.potomacstatecollege.edu & localhost. -->
+      <!-- Email web_services@mail.wvu.edu to get your domain added to this list. -->
+    */}}
+    <link href="https://cdn.fonts.net/kit/b339d500-35c3-11ed-aaf7-06b70d83f6b0/b339d500-35c3-11ed-aaf7-06b70d83f6b0.css" rel="stylesheet" />
+
+    {{- partial "head/stylesheets.html" . -}}
+
+    {{- partial "head/javascript.html" . -}}
+
+    {{ if hugo.IsProduction }}
+      <script src="https://kit.fontawesome.com/ba40ea27ab.js" crossorigin="anonymous"></script>
+    {{ else }}
+      <script data-search-pseudo-elements defer src="https://kit.fontawesome.com/a140e17a00.js" crossorigin="anonymous"></script>
+    {{ end }}
+
+    {{ if .Params.is_home_page }}
+      <link rel="canonical" href="{{ site.Params.url }}">
+    {{ else }}
+      <link rel="canonical" href="{{ .Params.url }}" >
+    {{ end }}
+    <link rel="icon" type="image/x-icon" href="/uploads/favicon.ico">
+    <meta name="description" content="{{ .Params.description }}" />
+    <meta name="google-site-verification" content="{{ site.Params.data.google_site_verification }}" />
+
+    {{- partial "head/social-meta-tags.html" . -}}
+  </head>

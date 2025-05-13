@@ -1,0 +1,45 @@
+bgStyler: bg-light
+organization_name: Organization Name
+address: <p>Address Line 1  </p><p>Address Line 2</p>
+phone: (304) 123-4567
+email: email@mail.wvu.edu
+left_links:
+  - link: https://about.wvu.edu/wvu-facts
+    text: Accreditations
+  - link: https://webstandards.wvu.edu
+    text: Web Standards
+  - link: https://www.wvu.edu/privacy
+    text: Privacy Notice
+  - link: mailto:web_services@mail.wvu.edu
+    text: Questions or Comments?
+copyright_statement: >-
+  <a class="" href="https://www.wvu.edu/">West Virginia University</a>. WVU is
+  an EEO/Affirmative Action employer — Minority/Female/Disability/Veteran.
+right_links:
+  - links:
+      - link: https://www.wvu.edu/SiteIndex/
+        text: A-Z Site Index
+      - link: https://campusmap.wvu.edu
+        text: Campus Map
+      - link: https://careers.wvu.edu/career-opportunities
+        text: WVU Careers
+      - link: https://directory.wvu.edu
+        text: WVU Directory
+  - links:
+      - link: https://give.wvu.edu/
+        text: Give
+      - link: https://careerservices.wvu.edu/students/handshake-login
+        text: Handshake
+      - link: https://alert.wvu.edu/
+        text: WVU Alert
+      - link: https://wvutoday.wvu.edu
+        text: WVU Today
+      - link: https://portal.wvu.edu
+        text: WVU Portal
+social_links:
+  - type: Facebook
+    link: https://www.facebook.com/wvumountaineers
+  - type: Twitter
+    link: https://twitter.com/WestVirginiaU
+  - type: YouTube
+    link: https://www.youtube.com/user/westvirginiau

@@ -1,0 +1,33 @@
+<meta property="og:title" content="{{ .Title }}" />
+<meta property="og:description" content="{{ .Params.description }}" />
+
+{{ $social_img_url := .Params.meta.social_image }}
+
+{{ if not site.Params.env_bookshop_live }}
+    {{ $social_img := "" }}
+    {{/*  Get the image, either from its remote or local source  */}}
+    {{ if hasPrefix $social_img_url "http"}}
+        {{ $social_img = resources.GetRemote $social_img_url }}
+    {{ else }}
+        {{ $social_img = resources.Get $social_img_url }}
+    {{ end }}
+
+    {{/* Resize images and add them to a variable  */}}
+    {{ if and $social_img (ne $social_img.MediaType.SubType "svg") }}
+        {{ $social_img_url = ($social_img.Resize "1200x630 webp").RelPermalink }}
+    {{ end }}
+{{ end }}
+
+{{ if $social_img_url }}
+  <meta property="og:image" content="{{ $social_img_url }}" />
+  <meta name="twitter:image" content="{{ $social_img_url }}" />
+{{ end }}
+
+<meta property="og:type" content="website" />
+<meta property="og:url" content="{{ .Params.url }}" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site.Params" content="{{ .Title }}" />
+<meta name="twitter:creator" content="{{ site.Params.data.twitter_handle }}" />
+<meta name="twitter:title" content="{{ .Title }}" />
+<meta name="twitter:description" content="{{ .Params.description }}" />

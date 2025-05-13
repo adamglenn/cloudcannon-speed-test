@@ -1,0 +1,40 @@
+{{ define "main" }}
+    {{ partial "bookshop_bindings" `(dict "display_hero" .Params.large_hero "heading" .Params.title "subheading" .Params.hero_subheading "author" .Params.author "published_at" .Params.publish_date )` }}
+    {{ partial "bookshop" (slice "section/article-hero" (dict "display_hero" .Params.large_hero "name" "article-hero-1" "hero_text_alignment" "left" "heading" .Params.title "subheading" .Params.hero_subheading "hide_author" false "author" .Params.author "published_at" .Params.publish_date )) }}
+
+    <article class="" itemscope="" itemprop="blogPost" itemtype="http://schema.org/BlogPosting">
+        <div class="container">
+            <div class="row py-5">
+                <div class="col-sm-8 col-md-6 mx-auto">
+                
+                    {{ partial "bookshop_bindings" `(dict "display_hero" .Params.large_hero "headline" .Params.title "author" .Params.author "published_at" .Params.publish_date )` }}
+                    {{ partial "bookshop" (slice "simple/article-headline" (dict "display_hero" .Params.large_hero "headline" .Params.title "author" .Params.author "published_at" .Params.publish_date )) }}
+                
+                    <div itemprop="articleBody">
+                        {{ .Content }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <aside class="py-5 border-top">
+        <div class="container wvu-z-index-content">
+          <div class="row">
+            <div class="col-md-8 mx-auto">
+              <div class="row">
+                    <div class="col-md-6">
+                      {{ partial "bookshop_bindings" `(dict "heading" "Related Articles" "hide_collection_pages" .Params.related_articles.hide_collection_pages "collection" "article-index" "exclude_pages" .Params.related_articles.exclude_pages "current_page" .Params.title)` }}
+                      {{ partial "bookshop" (slice "simple/article-related" (dict "heading" "Related Articles" "hide_collection_pages" .Params.related_articles.hide_collection_pages "collection" "article-index" "exclude_pages" .Params.related_articles.exclude_pages "current_page" .Params.title)) }}
+                    </div>
+
+                    <div class="col-md-6">
+                      {{ partial "bookshop_bindings" `(dict "_live_render" false)` }}
+                      {{ partial "bookshop" (slice "simple/article-archive" (dict "heading" "Archives" "list_classes" "pl-2 wvu-blog-archive")) }}
+                    </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </aside>
+{{ end }}

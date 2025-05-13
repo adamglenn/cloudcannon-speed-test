@@ -1,0 +1,34 @@
+<div class="c-article-hero">
+    {{ if .display_hero }}
+        <section id="{{ .name }}" aria-labelledBy="{{ .name }}-label" class=" py-5 bg-dark text-white wvu-bg-position-center wvu-overflow-hidden wvu-bg-size-cover wvu-bg-vignetting" >
+            <div class="container position-relative wvu-z-index-content">
+                <div class='row py-5 {{ if eq .hero_text_alignment "right" }} justify-content-end{{ end }}'>
+                    <div class='col col-md-6 {{ if eq .hero_text_alignment "center" }}mx-md-auto{{ end }}'>
+
+                        {{ partial "bookshop" (slice "generic/heading" (dict "text" .heading "name" .name "hierarchy" "h1" "classes" "display-2 iowan-old-style") ) }}
+
+                        <p class="helvetica-neue-bold h2">{{ .subheading }}</p>
+
+                        {{ if or (not .hide_author) ( .published_at ) }}
+                            <p>
+                                {{ if not .hide_author }}
+                                    <span itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+                                        <span itemprop="name">
+                                            {{ .author }}
+                                        </span>
+                                    </span>
+                                {{ end }}
+
+                                {{ if and (not .hide_author) ( .published_at ) }} | {{ end }}
+
+                                {{ if .published_at }}
+                                    <time datetime="{{ .published_at }}">{{ .published_at | time.Format "Monday, January 2, 2006" }}</time>
+                                {{ end }}
+                            </p>
+                        {{ end }}
+                    </div>
+                </div>
+            </div>
+        </section>
+    {{ end }}
+</div> 

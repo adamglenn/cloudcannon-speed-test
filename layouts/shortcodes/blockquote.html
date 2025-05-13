@@ -1,0 +1,7 @@
+{{ $quote := .Get "quote" }}
+{{ $author := .Get "author"}}
+
+<blockquote class="iowan-old-style-black-italic h2 wvu-bar wvu-bar--center my-4 pb-1 text-center mx-lg-n5">
+    {{ $quote }}
+    <span class="d-block iowan-old-style text-uppercase wvu-letter-spacing h5 mt-2">{{ $author }}</span>
+</blockquote>

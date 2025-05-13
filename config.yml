@@ -1,0 +1,31 @@
+baseURL: 'http://example.org/'
+languageCode: en-us
+title: My New Hugo Site
+enableGitInfo: true
+staticDir: assets
+module:
+  imports:
+    - path: components.local
+    - path: github.com/cloudcannon/bookshop/hugo/v3
+    # - path: "github.com/Enterprise-Success/WVU-POC-common"
+  replacements: 
+    - components.local -> ../component-library
+    # Uncomment the following line for development with a local theme.
+    # - 'github.com/Enterprise-Success/WVU-POC-common -> ../../WVU-POC-common/'
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+permalinks:
+  article-index: /:sections/:year/:month/:day/:slug/
+  archive: /article-index/:slug/
+mediaTypes:
+  application/rss:
+    suffixes: 
+      - rss
+outputFormats:
+  RSS:
+    mediatype: application/rss
+    baseName: ""
+taxonomies:
+  archive: "archive"

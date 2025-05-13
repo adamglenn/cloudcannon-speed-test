@@ -1,0 +1,13 @@
+{{ $image_src := .Get "image_source" }}
+{{ $image_alt := .Get "image_alt"}}
+{{ $caption := .Get "caption"}}
+
+
+<figure class="mt-4 mx-lg-n5">
+    <img alt="{{ $image_alt }}" src="{{ $image_src }}">
+</figure>
+<figcaption class="mb-4">
+    <p class="small d-block iowan-old-style">
+      {{ $caption }}
+    </p>
+</figcaption>

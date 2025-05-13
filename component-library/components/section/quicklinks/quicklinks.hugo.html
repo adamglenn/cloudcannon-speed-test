@@ -1,0 +1,25 @@
+<section id="{{ .name }}" aria-labelledBy="{{ .name }}-label" class=" py-5 text-wvu-blue bg-wvu-gold wvu-bg-topo-dark">
+    <div class="c-quicklinks container wvu-z-index-content">
+        <div class="row">
+            <div class="col-lg-4">
+                {{ partial "bookshop" (slice "generic/heading" (dict "text" .heading_text "name" .name "hierarchy" "h2" "classes" "wvu-shout") ) }}
+            </div>
+            <div class="col-lg-8">
+                <ul class="list-unstyled wvu-column-count-3">
+                    {{ range .links }}
+                        <li>
+                            <a class="text-wvu-blue" href="{{ .url }}">{{ .text }}</a>
+                        </li>
+                    {{ end }}
+                </ul>
+            </div>
+        </div>
+        <div class="mt-2 wvu-z-index-content">
+            <div class="wvu-z-index-content mb-2">
+                {{ if .postscript }}
+                    <p class="mb-0">{{ .postscript | safeHTML }}</p>
+                {{ end }}
+            </div>
+        </div>
+    </div>
+</section>

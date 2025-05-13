@@ -1,0 +1,25 @@
+baseURL: 'http://example.org/'
+languageCode: en-us
+title: My New Hugo Site
+enableGitInfo: true
+staticDir: assets
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+permalinks:
+  article-index: /:sections/:year/:month/:day/:slug/
+  archive: /article-index/:slug/
+mediaTypes:
+  application/rss:
+    suffixes: 
+      - rss
+outputFormats:
+  RSS:
+    mediatype: application/rss
+    baseName: ""
+taxonomies:
+  archive: "archive"
+frontmatter:
+  date:
+    - publish_date

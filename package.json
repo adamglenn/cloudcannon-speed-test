@@ -1,0 +1,19 @@
+{
+  "scripts": {
+    "dev": "node ./assets/javascript/collections.js && run-p  hugo-server bookshop",
+    "hugo-server": "hugo server -D -p 1233",
+    "init-component": "npx @bookshop/init --component",
+    "bookshop": "npx @bookshop/browser",
+    "bookshop-update": "npx @bookshop/up@latest",
+    "update-modules": "hugo mod clean && hugo mod tidy && hugo mod get -u"
+  },
+  "dependencies": {
+    "@bookshop/browser": "3.9.0",
+    "@bookshop/generate": "3.9.0",
+    "@bookshop/hugo-engine": "3.9.0",
+    "bootstrap": "^5.3.3",
+    "front-matter": "^4.0.2",
+    "npm-run-all": "^4.1.5",
+    "parvus": "^2.5.3"
+  }
+}

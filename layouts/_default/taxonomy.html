@@ -1,0 +1,74 @@
+{{ define "main" }}
+    {{/*  This template renders the archive pages  */}}
+    {{ $indexPage := site.GetPage "article-index" }}
+    {{ partial "bookshop_bindings" `(dict  "name" "backpage-header-1" "heading" $indexPage.Params.title )` }}
+    {{ partial "bookshop" (slice "section/simple-hero" (dict "name" "backpage-header-1" "heading" $indexPage.Params.title )) }}
+
+    <div class="py-5">
+        <div class="container wvu-z-index-content">
+            <div class="row">
+                <div class="col-md-8 me-md-auto">
+                    <div class="mb-4">
+                        {{ partial "bookshop_bindings" `(dict "text" $indexPage.Params.intro "classes" "lead")` }}
+                        {{ partial "bookshop" (slice "generic/text-block" (dict "text" $indexPage.Params.intro "classes" "lead")) }}
+                    </div>
+
+                    {{ $taxonomy := (index .Site.Taxonomies.archive .Title) }}
+                    {{ range sort $taxonomy.Pages ".Params.publish_date" "desc" }}
+                        <div class="wvu-articles">
+                            <div class="mb-4" itemscope="" itemtype="http://schema.org/BlogPosting">
+                                <div class="row">
+                                    <div class="wvu-article__thumb col-md-3">
+                                        <a href="{{ .RelPermalink }}" aria-hidden="true" tabindex="-1">
+                                            {{ partial "bookshop" (slice "generic/image" (dict "classes" "" "src" .Params.thumbnail_image.url "alt" .Params.thumbnail_image.alt "size" "" )) }}
+                                        </a>
+                                    </div>
+
+                                    <div class="col-md-9 mt-3 mt-md-0">
+                                        <h2 class="wvu-article__headline" itemprop="headline"><a class="newsletter-link" href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+
+                                        {{ if or (not .Params.hide_author) ( .Params.publish_date ) }}
+                                            <p class="small d-block">
+                                                {{ if not .Params.hide_author }}
+                                                    <span class="wvu-article__author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+                                                        <span itemprop="name">
+                                                            {{ .Params.author }}
+                                                        </span>
+                                                    </span>
+                                                {{ end }}
+                
+                                                {{ if and (not .Params.hide_author) ( .Params.publish_date ) }} | {{ end }}
+                
+                                                {{ if .Params.publish_date }}
+                                                    <time class="wvu-article__date-published" datetime="{{ .Params.publish_date }}">{{ .Params.publish_date | time.Format "Monday, January 2, 2006" }}</time>
+                                                {{ end }}
+                                            </p>
+                                        {{ end }}
+
+                                        <div class="wvu-article__body" itemprop="articleBody">
+                                            <p class="wvu-article__teaser">{{ .Params.description }}</p>
+                                        </div>
+
+                                        <p><a class="wvu-article__read-more btn btn-primary" href="{{ .RelPermalink }}">Read More<span class="visually-hidden">: {{ .Title }}</span></a></p>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    {{ end }}
+                </div>
+        
+                <aside class="wvu-sidebar col-md-3 mt-4 mt-md-0">
+                    <div class="sticky-top pt-3 mt-n3">
+                        {{ partial "bookshop_bindings" `(dict "_live_render" false)` }}
+                        {{ partial "bookshop" (slice "simple/article-archive" (dict "heading" "" "list_classes" "nav flex-column border-start border-muted ps-2 mb-3")) }}
+
+                        {{ with .OutputFormats.Get "rss" -}}
+                            <p><svg class="svg-inline--fa fa-rss-square text-syndication text-decoration-none" style="width: 14px" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="rss-square" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zM96 136c0-13.3 10.7-24 24-24c137 0 248 111 248 248c0 13.3-10.7 24-24 24s-24-10.7-24-24c0-110.5-89.5-200-200-200c-13.3 0-24-10.7-24-24zm0 96c0-13.3 10.7-24 24-24c83.9 0 152 68.1 152 152c0 13.3-10.7 24-24 24s-24-10.7-24-24c0-57.4-46.6-104-104-104c-13.3 0-24-10.7-24-24zm0 120a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z"></path></svg><!-- <span class="fa-solid fa-rss-square text-syndication text-decoration-none" aria-hidden="true"></span> --> <a href="{{ .Permalink }}"> <span class="text-primary">Articles RSS Feed</span></a></p>
+                        {{ end }}
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+{{ end }}

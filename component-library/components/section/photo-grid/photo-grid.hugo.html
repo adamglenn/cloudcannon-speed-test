@@ -1,0 +1,108 @@
+{{ $limit := .limit }}
+{{ $itemClasses := "col col-lg-6 px-0" }}
+{{ $itemReadMoreButtonText := .button_text }}
+{{ $heading_hierarchy := "h2" }}
+{{ if .region_names.header }}{{ $heading_hierarchy = "h3" }}{{ end }}
+  
+<section class="c-photo-grid" id="{{ .name }}" aria-labelledBy="{{ .name }}-label">
+    <div class="c-photo-grid wvu-z-index-content">
+
+        <div class="row mx-0">
+            {{ if not site.Data }}
+                {{ partial "bookshop" (slice "generic/collection-labels-tooltip" (dict "text" "This component will not display the collection pages inside the bookshop browser" ) ) }}
+            {{ else if and (site.Params.env_bookshop_live) (.hide_collection_pages) }}
+                {{ partial "bookshop" (slice "generic/collection-labels-tooltip" (dict "text" "'Hide collection pages' is currently selected in this component to speed up the editing of other areas - to see the pages here uncheck 'hide collection pages'" ) ) }}
+            {{ else }}
+                {{ $collection := .collection }}
+                {{ $collection = index site.Data.collections $collection }}
+                {{ $item_count := $collection | len }}
+                {{ if lt $item_count $limit }}{{ $limit = $item_count }}{{ end }}
+                {{ $exclude := (slice "") }}
+                {{ range .exclude_pages }}
+                    {{ with . }}
+                        {{ if le (. | int) ($item_count) }}
+                            {{ $exclude = $exclude | append (index $collection (sub (. | int) 1)).title }}
+                        {{ end }}
+                    {{ end }}
+                {{ end }}
+
+
+                {{ $live_editing_text := "To speed up live editing of other areas, check 'hide collection pages' in this component<br><br>Note that files must be saved before they are accessible here.<br>The indices of each page in the collection is as follows:<br>" }}
+                {{ range $index, $pages := $collection }}
+                    {{ if ne $index 0 }}{{ $live_editing_text = print $live_editing_text ", "}}{{ end }}
+                    {{ $live_editing_text = print $live_editing_text ($index | add 1) ": " .title }}
+                {{ end }}
+                {{ partial "bookshop" (slice "generic/collection-labels-tooltip" (dict "text" $live_editing_text ) ) }}
+                
+                {{ $component_data := . }}
+                {{ range first $component_data.limit (where ($collection) ".title" "not in" $exclude) }}
+
+                    {{/*  {% liquid
+                    if item.data.alternate_url != blank
+                        assign link_href = item.data.alternate_url
+                    else
+                        assign link_href = item.url
+                    endif
+                    %}  */}}
+
+                    {{ $src := .thumbnail_image.url }}
+
+                    {{ if not site.Params.env_bookshop_live }}
+                        {{ $image := "" }}
+                        {{/*  Get the image, either from its remote or local source  */}}
+                        {{ if hasPrefix $src "http"}}
+                            {{ $image = resources.GetRemote $src }}
+                        {{ else }}
+                            {{ $image = resources.Get $src }}
+                        {{ end }}
+
+                        {{/* Resize images and add them to a variable  */}}
+                        {{ if and $image (ne $image.MediaType.SubType "svg") }}{{ $src = ($image.Resize "1500x1000 webp").RelPermalink }}{{ end }}
+                    {{ end }}
+
+                    <div class="{{ $itemClasses }} px-0">
+                        <div class="h-100 mb-0 wvu-overflow-hidden wvu-background-size-cover p-3 bg-wvu-accent--blue-dark text-white text-left wvu-bg-size-cover wvu-bg-vignetting--80 wvu-bg-position-center shadow" style="background-image: url({{ $src }}); padding-top: 66.6667%">
+                            <div class="container position-relative wvu-z-index-content px-0 h-100">
+                                <div class="row h-100">
+                                    <div class="col-xl-8 d-flex flex-column justify-content-between">
+                                        <div>
+                                            {{ if .title }}
+                                                {{ partial "bookshop" (slice "generic/heading" (dict "text" .title "name" "" "hierarchy" "h2" "classes" "wvu-bar" "bar_location" "bottom") ) }}
+                                                <p class="h4 text-white iowan-old-style-black pt-2 mb-1">
+                                                    {{ .name }}
+                                                </p>
+                                            {{ end }}
+                                            {{ partial "bookshop" (slice "simple/profile-info" (dict "major" .major "graduation_year" .graduation_year "role" .role "organization" .organization) ) }}
+                                        </div>
+                                        <div>
+                                            <p class="card-text mt-5 pt-5">
+                                                {{ if .description }}
+                                                    {{ .description }}
+                                                {{/*  {% else %}
+                                                    {% render "includes/wvu-collection-warnings/wvu-collection-description-warning--v1" component: component, itemName: item.name %}  */}}
+                                                {{ end }}
+                                            </p>
+                                            <p>
+                                                {{ $rel_permalink := "" }}
+                                                {{ if not site.Params.env_bookshop_live }}
+                                                    {{ with site.GetPage .path }}
+                                                        {{ $rel_permalink = .RelPermalink }}
+                                                    {{ end }}
+                                                {{ end }}
+                                                {{ if $itemReadMoreButtonText }}
+                                                    {{ $link_text := print $itemReadMoreButtonText "<span class='visually-hidden'>: " .title "</span>" }}
+                                                    {{ $link_text = $link_text | safeHTML }}
+                                                    {{ partial "bookshop" (slice "generic/button" (dict "text" $link_text "style" "primary" "size" "sm" "link" $rel_permalink "link_target" "" )) }}
+                                                {{ end }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {{ end }}
+            {{ end }}
+        </div>
+    </div>
+</section>

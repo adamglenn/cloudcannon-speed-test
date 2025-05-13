@@ -1,0 +1,68 @@
+{{ $rowClasses := "justify-content-left" }}
+{{ $itemBodyClasses := "col mb-3" }}
+{{ $card_colors := (slice (dict "text" "text-white" "background" "bg-wvu-accent--blue")) }}
+
+{{ if eq .color "multicolor" }}
+  {{ $card_colors = $card_colors | append (dict "text" "text-wvu-blue" "background" "bg-wvu-accent--sunset") (dict "text" "text-wvu-blue" "background" "bg-wvu-neutral--cream")}}
+{{ end }}
+
+<div class="c-colored-boxes wvu-z-index-content">
+    <div class="wvu-z-index-content">
+
+      {{ if or .heading .subheading }}
+        <div class="pt-5 container wvu-z-index-content">
+          {{ if .heading }}{{ partial "bookshop" (slice "generic/heading" (dict "text" .heading "name" (print .name "-label") "hierarchy" "h2" "classes" "display-3 wvu-shout") ) }}{{ end }}
+          {{ if .subheading }}<p class="h3 helvetica-neue-light text-wvu-blue mb-3">{{ .subheading }}</p>{{ end }}
+        </div>
+      {{ end }}
+      {{/*  {{ if gt (boxes | len ) 1 }}
+          {{ if edit_mode }}
+          <div class="container my-3">
+              {{ render "includes/wvu-collection-warnings/wvu-collection-labels-warning--v1" component: component }}
+          </div>
+          {{ endif }}
+      {{ else }}
+          {{- capture itemClasses }}{{ render "includes/wvu-column-classes/wvu-column-classes--v1" numberOfItems: itemCount component: component }}{{ endcapture -%}
+          {{ assign itemClasses = itemClasses | strip }}
+          <div class="container">
+          {{ render "includes/wvu-collection-warnings/wvu-collection-labels-label-tooltip--v1" component: component }}
+          </div>
+      {{ endif }}  */}}
+
+      <div class="container-fluid p-3">
+          <div class="row {{ $rowClasses }}">
+            {{ $color_index := 0 }}
+            {{ range .items }}
+              <div class="d-flex flex-column {{ $itemBodyClasses }}">
+                  {{/*  Get the colours for this card  */}}
+                  {{ $text_color := (index $card_colors $color_index).text }}
+                  {{ $background_color := (index $card_colors $color_index).background }}
+                  {{ if ge ($color_index | add 1) ($card_colors | len) }}{{ $color_index = 0 }}{{ else }}{{ $color_index = $color_index | add 1 }}{{ end }}
+
+                  <div class="position-relative h-100 p-3 p-xl-4 {{ $text_color }} {{ $background_color }}">
+                      <a class="{{ if not site.Params.env_bookshop_live }}stretched-link{{ end }} {{ $text_color }} text-decoration-none" {{ if .link_target }}target="{{ .link_target }}"{{ end }} href="{{ .url }}">
+                        {{ partial "bookshop" (slice "generic/heading" (dict "text" .heading "name" (print .name "-label") "hierarchy" "h3" "classes" "card-title h2 d-block mb-2") ) }}
+                      </a>
+                      {{- if .text }}
+                        <p class="flex-grow-1">
+                          {{ .text }}
+                        </p>
+                      {{/*  {{ else }}  */}}
+                      {{/*  {{ render "includes/wvu-collection-warnings/wvu-collection-description-warning--v1" component: component, itemName: item.name }}  */}}
+                      {{- end }}
+                      <div class="h1 mb-0">
+                          <span aria-hidden="true" class="fa-solid fa-arrow-circle-right"></span>
+                      </div>
+                  </div>
+              </div>
+            {{ end }}
+          </div>
+      </div>
+
+      {{ if .postscript }}
+        <div class="container mt-3">
+            <p class="mb-0">{{ .postscript | safeHTML }}</p>
+        </div>
+      {{ end }}
+  </div>
+</div>

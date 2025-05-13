@@ -1,0 +1,42 @@
+<div class="c-article-related">
+  <h2 class="h3">{{ .heading }}</h2>
+
+  {{ if and (site.Params.env_bookshop_live) (.hide_collection_pages) }}
+      {{ partial "bookshop" (slice "generic/collection-labels-tooltip" (dict "text" "'Hide collection pages' is currently selected in this component to speed up the editing of other areas - to see the pages here uncheck 'hide collection pages'" ) ) }}
+  {{ else }}
+      {{ $limit := 5 }}
+      {{ $collection := .collection }}
+      {{ $collection = index site.Data.collections $collection }}
+      {{ $item_count := $collection | len }}
+      {{ if lt $item_count $limit }}{{ $limit = $item_count }}{{ end }}
+      {{ $exclude := (slice "") }}
+      {{ range .exclude_pages }}
+          {{ with . }}
+              {{ if le (. | int) ($item_count) }}
+                  {{ $exclude = $exclude | append (index $collection (sub (. | int) 1)).title }}
+              {{ end }}
+          {{ end }}
+      {{ end }}
+      {{ $exclude = $exclude | append .current_page }}
+                
+      {{ $component_data := . }}
+      <ul clas="pl-2">
+          {{ range first $limit (where ($collection) ".title" "not in" $exclude) }}
+            {{ $rel_permalink := "" }}
+            {{ if not site.Params.env_bookshop_live }}
+                {{ with site.GetPage .path }}
+                    {{ $rel_permalink = .RelPermalink }}
+                {{ end }}
+            {{ end }}
+            <li><a href="{{ $rel_permalink }}">{{ .title }}</a></li>
+          {{ end }}
+      </ul>
+
+      {{ $live_editing_text := "To speed up live editing of other areas, check 'hide collection pages' in this component<br><br>Note that files must be saved before they are accessible here.<br>The indices of each page in the collection is as follows:<br>" }}
+      {{ range $index, $pages := $collection }}
+          {{ if ne $index 0 }}{{ $live_editing_text = print $live_editing_text ", "}}{{ end }}
+          {{ $live_editing_text = print $live_editing_text ($index | add 1) ": " .title }}
+      {{ end }}
+      {{ partial "bookshop" (slice "generic/collection-labels-tooltip" (dict "text" $live_editing_text ) ) }}
+  {{ end }}
+</div>

@@ -1,0 +1,13 @@
+{{- $jquery := resources.Get "javascript/vendor/isotope/jquery-1.7.1.min.js" -}}
+{{- $jqueryBaBBQ := resources.Get "javascript/vendor/isotope/jquery.ba-bbq.min.js" -}}
+{{- $jqueryIsotope := resources.Get "javascript/vendor/isotope/jquery.isotope.min.js" -}}
+{{- $bootstrap := resources.Get "javascript/vendor/bootstrap/bootstrap.bundle.min.js" -}}
+{{- $filters := resources.Get "javascript/filters.js" -}}
+{{- $parvus := resources.Get "javascript/vendor/parvus/parvus.min.js" -}}
+{{- $parvusGallery := resources.Get "javascript/parvus-gallery--custom.js" -}}
+
+{{- $scripts := slice $jquery $jqueryBaBBQ $jqueryIsotope $bootstrap $filters $parvus $parvusGallery | resources.Concat "js/main.js" -}}
+
+{{- $jsBundle := $scripts | js.Build -}} 
+{{ $jsBundle := $jsBundle | resources.Fingerprint }}
+<script defer src="{{ $jsBundle.RelPermalink }}"></script>

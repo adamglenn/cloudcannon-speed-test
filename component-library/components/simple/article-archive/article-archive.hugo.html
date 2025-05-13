@@ -1,0 +1,21 @@
+<div class="c-article-archive">
+    {{ if .heading }}{{ partial "bookshop" (slice "generic/heading" (dict "text" .heading "name" "" "hierarchy" "h2" "classes" "wvu-blog__sidebar-header h3") ) }}{{ end }}
+
+    {{ if site.Params.env_bookshop_live }}
+      {{ partial "bookshop" (slice "generic/collection-labels-tooltip" (dict "text" "This component will not show within live editing" ) ) }}
+    {{ else if ne (site.Taxonomies.archive | len ) 0 }}
+      <ul class="{{ .list_classes }}">
+        {{ $archive := (slice)}}
+        {{ range site.Taxonomies.archive }}
+          {{ $date := split .Page.RelPermalink "/" }}
+          {{ $month := (index $date 3) }}
+          {{ if lt ($month | len) 2 }}{{ $month = print "0" $month }}{{ end }}
+          {{ $date = print (index $date 2) "-" $month "-01" }}
+          {{ $archive = $archive | append (dict "date" $date "count" .Count "permalink" .Page.RelPermalink) }}
+        {{ end }}
+        {{ range (sort ($archive) ".date" "desc")}}
+              <li><a href="{{ .permalink }}">{{ time.Format "January 2006" .date }}</a> <span class="badge bg-wvu-accent--blue-dark text-white">{{ .count }}</span></li>
+        {{ end }}
+      </ul>
+    {{ end }}
+</div>

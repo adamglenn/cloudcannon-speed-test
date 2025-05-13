@@ -1,0 +1,33 @@
+{{ if .name }}
+    <div class="fs-2 mb-0 helvetica-neue-bold">
+        {{ .name }}
+    </div>
+{{ end }}
+
+{{ if .major }}
+    <span class="d-block position-relative">
+        {{ if .major_url }}
+            <a class="text-decoration-none text-dark d-block" href="{{ .major_url }}">{{ .major }} <span aria-hidden="true" class="fa-solid fa-arrow-up-right-from-square"></span></a>
+        {{ else }}
+            <span class="d-block">{{ .major }}</span>
+        {{ end }}
+    </span>
+{{ end }}
+       
+{{ if .graduation_year }}
+    <div class="helvetica-neue-light">
+        {{ .graduation_year }}
+    </div>
+{{ end }}
+
+{{ if .role }}
+    <div class="helvetica-neue-light">
+        {{ .role }}
+    </div>
+{{ end }}
+
+{{ if .organization }}
+    <div class="helvetica-neue-light">
+        {{ .organization }}
+    </div>
+{{ end }}

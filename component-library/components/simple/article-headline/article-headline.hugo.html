@@ -1,0 +1,23 @@
+<div class="c-article-headline">
+    {{ if not .display_hero }}
+        {{ partial "bookshop" (slice "generic/heading" (dict "text" .headline "name" "article-1-label" "hierarchy" "h1" "classes" "display-4") ) }}
+
+        {{ if or (not .hide_author) ( .published_at ) }}
+            <p class="small d-block mb-4">
+                {{ if not .hide_author }}
+                    <span itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+                        <span itemprop="name">
+                            {{ .author }}
+                        </span>
+                    </span>
+                {{ end }}
+
+                {{ if and (not .hide_author) ( .published_at ) }} | {{ end }}
+
+                {{ if .published_at }}
+                    <time datetime="{{ .published_at }}">{{ .published_at | time.Format "Monday, January 2, 2006" }}</time>
+                {{ end }}
+            </p>
+        {{ end }}
+    {{ end }}
+</div>

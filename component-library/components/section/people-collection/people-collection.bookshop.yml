@@ -1,0 +1,32 @@
+# Metadata about this component, to be used in the CMS
+spec:
+  structures:
+    - content_blocks
+  label: "People Collection"
+  description: Display people with their image/details
+  icon: account_box
+  tags: []
+
+# Defines the structure of this component, as well as the default values
+blueprint:
+  name: people-collection-1
+  heading: People collection headline
+  subheading: Subhead goes here.
+  hide_collection_pages: true
+  collection: contact-index
+  exclude_pages: []
+  limit: 3
+  button_text: Read More
+  postscript: Put additional info or <a href="#">links</a> here.
+
+# Overrides any fields in the blueprint when viewing this component in the component browser
+preview:
+
+# Any extra CloudCannon inputs configuration to apply to the blueprint
+_inputs:
+  button_text:
+    comment: If this is left blank, no button will be shown
+  postscript:
+    type: html
+    options:
+      link: true

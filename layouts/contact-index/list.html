@@ -1,0 +1,18 @@
+{{ define "main" }}
+    {{ partial "bookshop_bindings" `(dict  "name" "backpage-header-1" "heading" .Params.title )` }}
+    {{ partial "bookshop" (slice "section/simple-hero" (dict "name" "backpage-header-1" "heading" .Params.title )) }}
+
+    <section class="c-directory py-5">
+        <div class="container wvu-z-index-content">
+          {{/*  {{ partial "bookshop_bindings" `(dict "text" .Params.contact_list.heading "name" "featurettes-*-label" "hierarchy" "h2" "classes" "display-3 wvu-shout")` }}
+          {{ partial "bookshop" (slice "generic/heading" (dict "text" .Params.contact_list.heading "name" "featurettes-*-label" "hierarchy" "h2" "classes" "display-3 wvu-shout") ) }}
+          {{ partial "bookshop_bindings" `(dict "text" .Params.contact_list.subheading "classes" "h3 helvetica-neue-light mb-4")` }}
+          {{ partial "bookshop" (slice "generic/text-block" (dict "text" .Params.contact_list.subheading "classes" "h3 helvetica-neue-light mb-4")) }}  */}}
+          
+          {{ partial "bookshop_bindings" `(dict "text" "Add more pages to this list by creating more pages in this collection. Updates will show here after saving." )` }}
+          {{ partial "bookshop" (slice "generic/collection-labels-tooltip" (dict "text" "Add more pages to this list by creating more pages in this collection. Updates will show here after saving." ) ) }}
+          {{ partial "bookshop_bindings" `(dict "_live_render" false)` }}
+          {{ partial "bookshop" (slice "simple/contact-list" (dict "button_text" .Params.contact_list.button_text "collection" .Section ))}}
+        </div>
+    </section>
+{{ end }}

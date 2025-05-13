@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+    {{- partial "head/head.html" . -}}
+
+    <body>
+        {{- partial "nav/masthead.html" . -}}
+        {{- partial "nav/nav.html" . -}}
+
+        <main id="wvu-main-content">
+            {{ partial "bookshop_bindings" `(dict "include_breadcrumbs" .Params.breadcrumbs.include_breadcrumbs "link_classes" .Params.breadcrumbs.link_classes "rel_permalink" .RelPermalink )` }}
+            {{ partial "bookshop" (slice "section/breadcrumbs" (dict "include_breadcrumbs" .Params.breadcrumbs.include_breadcrumbs "link_classes" .Params.breadcrumbs.link_classes "rel_permalink" .RelPermalink )) }}
+
+            {{ block "main" . }}
+            {{ end }}
+        </main>
+
+        {{- partial "footer/footer.html" . -}}
+    </body>
+</html>

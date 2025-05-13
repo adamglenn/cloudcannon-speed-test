@@ -1,0 +1,6 @@
+module:
+  imports:
+    - path: components.local
+    - path: github.com/cloudcannon/bookshop/hugo/v3
+  replacements: 
+    - components.local -> ../component-library

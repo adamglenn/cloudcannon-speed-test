@@ -1,0 +1,84 @@
+
+<div class="c-contact-form py-5 container wvu-z-index-content">
+    <div class="row">
+        <div class="col-md-5 me-auto">
+            <p class="helvetica-neue-light fs-4 mb-3 pr-md-3">{{ .header }}</p>
+
+            {{ if or (ne .location.address "<p></p>") .location.address .location.heading }}
+                <div class="d-flex mb-2 mt-4">
+                    <div class="h3"><span class="fa-solid fa-location-pin" aria-hidden="true"></span></div>
+                    <div class="ms-2">
+                        {{ if .location.heading }}{{ partial "bookshop" (slice "generic/heading" (dict "text" .location.heading "name" "" "hierarchy" "h2" "classes" "h5 iowan-old-style-black") ) }}{{ end }}
+                        {{ if and (ne .location.address "<p></p>") .location.address }}
+                            <address>
+                                {{ .location.address | safeHTML }}
+                            </address>
+                        {{ end }}
+                    </div>
+                </div>
+            {{ end }}
+
+            {{ if or .phone.phone .phone.heading .phone.location }}
+                <div class="d-flex mb-2">
+                    <div class="h3"><span class="fa-solid fa-phone" aria-hidden="true"></span></div>
+                    <div class="ms-2">
+                        {{ if .phone.heading }}{{ partial "bookshop" (slice "generic/heading" (dict "text" .phone.heading "name" "" "hierarchy" "h2" "classes" "h5 iowan-old-style-black") ) }}{{ end }}
+                        {{ if or .phone.location .phone.phone }}
+                            <address>
+                                {{ if .phone.location }}<strong>{{ .phone.location }}</strong>{{ end }}
+                                {{ if .phone.phone }}<br>{{ .phone.phone }}{{ end }}
+                            </address>
+                        {{ end }}
+                    </div>
+                </div>
+            {{ end }}
+
+            {{ if or .fax.number .fax.heading}}
+                <div class="d-flex mb-2">
+                    <div class="h3"><span class="fa-solid fa-fax" aria-hidden="true"></span></div>
+                    <div class="ms-2">
+                        {{ if .fax.heading }}{{ partial "bookshop" (slice "generic/heading" (dict "text" .fax.heading "name" "" "hierarchy" "h2" "classes" "h5 iowan-old-style-black") ) }}{{ end }}
+                        {{ if .fax.number }}
+                            <address>
+                                {{ .fax.number }}
+                            </address>
+                        {{ end }}
+                    </div>
+                </div>
+            {{ end }}
+
+            {{ if or .email.email .email.heading .email.location  }}
+                <div class="d-flex mb-2">
+                    <div class="h3"><span class="fa-solid fa-envelope" aria-hidden="true"></span></div>
+                    <div class="ms-2">
+                        {{ if .email.heading }}{{ partial "bookshop" (slice "generic/heading" (dict "text" .email.heading "name" "" "hierarchy" "h2" "classes" "h5 iowan-old-style-black") ) }}{{ end }}
+                        {{ if or .email.location .email.email }}
+                            <address>
+                                {{ if .email.location }}<strong>{{ .email.location }}</strong>{{ end }}
+                                {{ if .email.email }}<br><a href="mailto:{{ .email.email }}">{{ .email.email }}</a>{{ end }}
+                            </address>
+                        {{ end }}
+                    </div>
+                </div>
+            {{ end }}
+
+            {{ if or .other.heading .other.subheading .other.link.text  }}
+                <div class="d-flex mb-2">
+                    <div class="h3"><span class="fa-solid fa-user-group" aria-hidden="true"></span></div>
+                    <div class="ms-2">
+                        {{ if .other.heading }}{{ partial "bookshop" (slice "generic/heading" (dict "text" .other.heading "name" "" "hierarchy" "h2" "classes" "h5 iowan-old-style-black") ) }}{{ end }}
+                        {{ if .other.subheading }}<p>{{ .other.subheading }}</p>{{ end }}
+                        {{ if .other.link.text }}<p><a class="btn btn-outline-dark" href="{{ .other.link.url }}"><span class="fa-solid fa-circle-arrow-right" aria-hidden="true"></span>{{ .other.link.text }}</a></p>{{ end }}
+                    </div>
+                </div>
+            {{ end }}
+        </div>
+        {{ if .form }}
+            <div class="col-md-6 bg-white text-wvu-accent--blue-dark shadow-lg">
+                <div class="p-4">
+                    {{ partial "bookshop" (slice "simple/form" .form ) }}
+                </div>
+            </div>
+        {{ end }}
+    </div>
+</div>

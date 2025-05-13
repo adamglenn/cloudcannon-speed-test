@@ -1,0 +1,9 @@
+{{ if eq .hierarchy "h1" }}
+    <h1 id="{{ .name }}" class="c-heading {{ .classes }} {{ if .bar_location }}wvu-bar--{{ .bar_location }}{{ end }}">{{ .text }}</h1>
+{{ else if eq .hierarchy "h2" }}
+    <h2 id="{{ .name }}" class="c-heading {{ .classes }} {{ if .bar_location }}wvu-bar--{{ .bar_location }}{{ end }}">{{ .text }}</h2>
+{{ else if eq .hierarchy "h3" }}
+    <h3 id="{{ .name }}" class="c-heading {{ .classes }} {{ if .bar_location }}wvu-bar--{{ .bar_location }}{{ end }}">{{ .text }}</h3>
+{{ else }}
+    <p id="{{ .name }}" class="c-heading {{ .classes }} {{ if .bar_location }}wvu-bar--{{ .bar_location }}{{ end }}">{{ .text }}</p>
+{{ end }}

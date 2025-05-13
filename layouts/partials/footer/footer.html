@@ -1,0 +1,56 @@
+<footer class="py-4 {{ .Site.Data.footer.bgStyler }}">
+  <div class="container wvu-z-index-content">
+    <div class="row small">
+      <div class="col-12">
+        <address class="mb-4">
+          <p>
+            <strong>{{ .Site.Data.footer.organization_name }}</strong><br/>{{ .Site.Data.footer.address | safeHTML }}<br/>
+          </p>
+          <p>
+            <span class="fa-solid fa-phone"></span>
+            <a href="tel:{{ .Site.Data.footer.phone }}">{{ .Site.Data.footer.phone }}</a><br />
+            <span class="fa-solid fa-envelope"></span>
+            <a href="mailto:{{ .Site.Data.footer.email }}">{{ .Site.Data.footer.email }}</a>
+          </p>
+        </address>
+      </div>
+    </div>
+    <div class="row small">
+      <div class="col-md-6">
+        <ul class="list-unstyled">
+            {{ range .Site.Data.footer.left_links }}
+                <li class="list-inline-item">
+                <a href="{{ .link }}">{{ .text }}</a>
+                </li>
+            {{ end }}
+        </ul>
+        <p>
+          &copy; {{ now | time.Format "2006"}} {{ .Site.Data.footer.copyright_statement | markdownify }}
+          <span class="wvu-credits__last-edited">Last updated on {{ .Lastmod | default .PublishDate | time.Format "Jan 2, 2006" }}.</span>
+        </p>
+      </div>
+      <div class="col-md-6 text-md-end">
+        {{ range .Site.Data.footer.right_links }}
+            <ul class="list-unstyled mb-0">
+                {{ range .links }}
+                    <li class="list-inline-item">
+                        <a href="{{ .link }}">{{ .text }}</a>
+                    </li>
+                {{ end }}
+            </ul>
+        {{ end }}
+
+        <ul class="list-unstyled my-2">
+            {{ range .Site.Data.footer.social_links }}
+                <li class="list-inline-item">
+                    <a class="h5" href="{{ .link }}">
+                        <span class="fab fa-{{ .type | lower }}-square" aria-hidden="true"></span>
+                        <span class="visually-hidden">WVU on {{ .type }}</span>
+                    </a>
+                </li>
+            {{ end }}
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>

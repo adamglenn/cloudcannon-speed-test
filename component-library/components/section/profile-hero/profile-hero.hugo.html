@@ -1,0 +1,68 @@
+{{ $page := strings.TrimRight "/" .page }}
+{{ $thumbnail_image := "" }}
+{{ $thumbnail_alt := "" }}
+{{ $heading := "" }}
+{{ $profile_title := "" }}
+{{ $organization := "" }}
+{{ $major := "" }}
+{{ $graduation_year := "" }}
+{{ $contact_info := "" }}
+{{ $type := "" }}
+{{ range where (index site.Data.collections .collection ) ".path" "==" $page }}
+    {{ $thumbnail_image = .profile_image.url }}
+    {{ $thumbnail_alt = .profile_image.url }}
+    {{ $heading = .name }}
+    {{ if not .name }}{{ $heading = .title }}{{ end }}
+    {{ $profile_title = .role }}
+    {{ $organization = .organization }}
+    {{ $major = .major }}
+    {{ $graduation_year = .graduation_year }}
+    {{ $contact_info = .contact_details }}
+    {{ $type = .type }}
+{{ end }}
+{{ $src := "https://static.wvu.edu/global/images/patterns/wvu/background__topo-white--2.0.0.svg" }}
+
+{{ if not site.Params.env_bookshop_live }}
+    {{ $image := "" }}
+    {{/*  Get the image, either from its remote or local source  */}}
+    {{ if hasPrefix $src "http"}}
+        {{ $image = resources.GetRemote $src }}
+    {{ else }}
+        {{ $image = resources.Get $src }}
+    {{ end }}
+
+    {{/* Resize images and add them to a variable  */}}
+    {{ if and $image (ne $image.MediaType.SubType "svg") }}{{ $src = ($image.Resize "1920x1280 webp").RelPermalink }}{{ end }}
+{{ end }}
+
+{{ if not (where (index site.Data.collections .collection ) ".path" "==" $page) }}
+    {{ partial "bookshop" (slice "generic/collection-labels-tooltip" (dict "text" "The selected profile must be within the selected collection" ) ) }}
+{{ else if ne $type "profile" }}
+    {{ partial "bookshop" (slice "generic/collection-labels-tooltip" (dict "text" "The collection you select must contain pages with profile details in it" ) ) }}
+{{ else }}
+    <section id="{{ .name }}" aria-labelledBy="{{ .name }}-label" class="c-profile-hero py-5 bg-wvu-blue wvu-bg-topo-light text-white" style="background-image: url({{ $src }})">
+        <div class="container wvu-z-index-content">
+            <div class="row">
+                <div class="col-md-6 col-lg-5 col-xl-4 mb-3 mb-md-0">
+                    <div class="row">
+                        <div class="col-xl-10 me-xl-auto">
+                            <div class="mb-1">
+                                {{ if $thumbnail_image }}
+                                    {{ partial "bookshop" (slice "generic/image" (dict "classes" "card-img-top w-100" "src" $thumbnail_image "alt" $thumbnail_alt "size" "640x640" )) }}
+                                {{ end }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-7 col-xl-8 wvu-backpage-main">
+
+                    {{ partial "bookshop" (slice "generic/heading" (dict "text" $heading "name" .name "hierarchy" "h1" "classes" "display-3 wvu-shout text-white wvu-bar wvu-bar--bottom mb-4") ) }}
+
+                    {{ partial "bookshop" (slice "generic/profile-details" (dict "name" "" "major" $major "major_url" "" "graduation_year" $graduation_year "role" $profile_title "organization" $organization))}}
+
+                    {{ partial "bookshop" (slice "simple/contact-info" (dict "contact_details" $contact_info "border" false "top_margin" "mt-3")) }}
+                </div>
+            </div>
+        </div>
+    </section>
+{{ end }}

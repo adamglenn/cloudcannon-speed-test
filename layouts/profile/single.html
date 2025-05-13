@@ -1,0 +1,36 @@
+{{ define "main" }}
+    <section id="wvu-main-content" class=" py-5 ">
+        <div class="container wvu-z-index-content">
+            <div class="row">
+                <div class="col-md-6 col-lg-5 col-xl-4 mb-3 mb-md-0">
+                <div class="row">
+                    <div class="col-xl-10 me-xl-auto">
+                        <div class="mb-1">
+                            {{ partial "bookshop_bindings" `(dict "classes" "card-img-top w-100" "src" .Params.profile_image.url "alt" .Params.profile_image.alt "size" "640x640" )` }}
+                            {{ partial "bookshop" (slice "generic/image" (dict "classes" "card-img-top w-100" "src" .Params.profile_image.url "alt" .Params.profile_image.alt "size" "640x640" )) }}
+                        </div>
+                    </div>
+                </div>
+                </div>
+                <div class="col-md-6 col-lg-7 col-xl-8 wvu-backpage-main">
+                    {{ partial "bookshop_bindings" `(dict "text" .Params.title "name" "profile-1-label" "hierarchy" "h1" "classes" "display-3 wvu-shout text-wvu-blue wvu-bar wvu-bar--bottom")` }}
+                    {{ partial "bookshop" (slice "generic/heading" (dict "text" .Params.title "name" "profile-1-label" "hierarchy" "h1" "classes" "display-3 wvu-shout text-wvu-blue wvu-bar wvu-bar--bottom") ) }}
+
+                    {{ partial "bookshop_bindings" `(dict "name" .Params.name "major" .Params.major "major_url" .Params.major_url "graduation_year" .Params.graduation_year "role" .Params.role "organization" .Params.organization)` }}
+                    {{ partial "bookshop" (slice "generic/profile-details" (dict "name" .Params.name "major" .Params.major "major_url" .Params.major_url "graduation_year" .Params.graduation_year "role" .Params.role "organization" .Params.organization) ) }}
+                    
+                    {{ partial "bookshop_bindings" `(dict "contact_details" .Params.contact_details "border" true)` }}
+                    {{ partial "bookshop" (slice "simple/contact-info" (dict "contact_details" .Params.contact_details "border" true "top_margin" "mt-3")) }}
+
+
+                    {{ partial "bookshop_bindings" `(dict "text" .Params.quote)` }}
+                    {{ partial "bookshop" (slice "generic/quote" (dict "text" .Params.quote) ) }}
+
+                    <div class="mt-3">
+                        {{ .Content }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{{ end }}

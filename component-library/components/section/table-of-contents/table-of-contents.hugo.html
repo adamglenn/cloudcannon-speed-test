@@ -1,0 +1,27 @@
+{{ $current_url := .current_url }}
+<aside class="wvu-sidebar col-md-3 mt-4 mt-md-0 text-start ms-md-auto" aria-label="backpage-1-sidebar">
+    <div class="sticky-top pt-3 mt-n3">
+        <div class="c-table-of-contents mb-3">
+            <ul class="nav flex-column border-start border-muted ps-1 mb-3">
+                {{ if not .use_nav }}
+                    {{ range .links }}
+                        {{ $url := .url }}
+                        {{ if ne (substr $url -1) "/"}}{{ $url = print $url "/" }}{{ end }}
+                        <li class="nav-item">
+                            <a class="nav-link text-decoration-none {{ if eq ($current_url | relURL) ($url | relURL) }}active{{ end }}" {{ if eq ($current_url | relURL) (.url | relURL) }}aria-current="page"{{ end }} href="{{ .url }}">{{ .text }}</a>
+                        </li>
+                    {{ end }}
+                {{ else }}
+                    {{ $links := index (index (where site.Data.nav.nav_links ".text" "==" .section)) 0 }}
+                    {{ range $links.sub_nav_links }}
+                        {{ $url := .link }}
+                        {{ if ne (substr $url -1) "/"}}{{ $url = print $url "/" }}{{ end }}
+                        <li class="nav-item">
+                            <a class="nav-link text-decoration-none {{ if eq ($current_url | relURL) ($url | relURL) }}active{{ end }}" {{ if eq ($current_url | relURL) (.url | relURL) }}aria-current="page"{{ end }} href="{{ .url }}">{{ .text }}</a>
+                        </li>
+                    {{ end }}
+                {{ end }}
+            </ul>
+        </div>
+    </div>
+</aside>

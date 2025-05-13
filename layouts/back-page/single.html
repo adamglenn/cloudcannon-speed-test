@@ -1,0 +1,18 @@
+{{ define "main" }}
+    {{ partial "bookshop_bindings" `(dict  "name" "article-hero-1" "heading" .Params.title )` }}
+    {{ partial "bookshop" (slice "section/simple-hero" (dict "name" "article-hero-1" "heading" .Params.title )) }}
+
+    <div id="wvu-main-content" class=" py-5 wvu-backpage-main">
+        <div class="container wvu-z-index-content">
+          <div class="row">
+            <div class="col-md-8">
+                {{ .Content }}
+            </div>
+            
+            
+            {{ partial "bookshop_bindings" `(dict "use_nav" .Params.use_nav "current_url" .RelPermalink "links" .Params.table_of_contents "section" .Params.section)` }}
+            {{ partial "bookshop" (slice "section/table-of-contents" (dict "use_nav" .Params.use_nav "links" .Params.table_of_contents "current_url" .RelPermalink "section" .Params.section)) }}
+          </div>
+        </div>
+    </div>
+{{ end }}

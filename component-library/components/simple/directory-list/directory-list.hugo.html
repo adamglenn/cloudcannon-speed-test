@@ -1,0 +1,60 @@
+<ul class="list-unstyled">
+    {{ $component := . }}
+    {{ range sort (where site.RegularPages ".Params.display_on_directory" "==" true) ".Params.name" "desc" }}
+
+      <li class="border-bottom border-1 border-black-50 pt-2 pb-3 pb-sm-2">
+        <div class="row">          
+          <div class="col-12 col-sm-3 col-lg-3 mb-2 mb-sm-0">
+            <div class="row">
+              <div class="col-lg-3 my-2 my-lg-0">
+                {{ if .Params.profile_image.url }}
+                  {{ partial "bookshop" (slice "generic/image" (dict "classes" "rounded-circle shadow d-inline-block" "src" .Params.profile_image.url "alt" .Params.profile_image.alt "size" "640x640" )) }}
+                {{ end }}
+              </div>
+              <div class="col-lg-9 align-self-center d-sm-none d-lg-block">
+                {{ if .Params.name }}
+                  <strong class="d-block">{{ .Params.name }}</strong>
+                {{ end }}
+
+                {{- if .Title }}
+                  <small class="helvetica-neue-light d-block">{{ .Title }}</small>
+                {{- end }}
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-8 col-lg-9">
+            <div class="row h-100 flex-column flex-lg-row justify-content-center">
+              <div class="col-12 mb-2 d-none d-sm-block d-lg-none">
+                {{ if .Params.name }}
+                  <strong class="d-block">{{ .Params.name }}</strong>
+                {{ end }}
+                {{- if .Title }}
+                  <small class="helvetica-neue-light d-block">{{ .Title }}</small>
+                {{- end }}
+              </div>
+              <div class="col-12 col-lg align-self-center">
+                {{- if .Params.contact_details.phone }}
+                  <span aria-hidden="true" class="fa-solid fa-phone"></span> <a href="tel:{{ .Params.contact_details.phone }}">{{ .Params.contact_details.phone }}</a>
+                {{- end }}
+              </div>
+              <div class="col-12 col-lg-5 align-self-center">
+                {{- if .Params.contact_details.email }}
+                  <span aria-hidden="true" class="fa-solid fa-envelope"></span> <a href="mailto:{{ .Params.contact_details.email }}"> {{ .Params.contact_details.email }}</a>
+                {{- end }}
+              </div>
+              <div class="col-12 col-lg align-self-center">
+                {{- if .Params.contact_details.office }}
+                  <span aria-hidden="true" class="fa-solid fa-building"></span> {{- if .Params.contact_details.office_url }} <a href="{{ .Params.contact_details.office_url }}">{{ .Params.contact_details.office }}</a>{{ else }} {{ .Params.contact_details.office }}{{- end }}
+                {{- end }}
+              </div>
+              {{ if $component.button_text }}
+                <div class="col-12 col-lg align-self-center">
+                  <span aria-hidden="true" class="fa-solid fa-user-circle"></span> <a href="{{ .RelPermalink }}">{{ $component.button_text }}</a>
+                </div>
+              {{ end }}
+            </div>
+          </div>
+        </div>
+      </li>
+    {{ end }}
+  </ul>

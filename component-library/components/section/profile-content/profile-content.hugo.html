@@ -1,0 +1,12 @@
+{{ $page := strings.TrimRight "/" .page }}
+{{ $content := "" }}
+{{ $excerpt := "" }}
+{{ range where (index site.Data.collections .collection) ".path" "==" $page }}
+    {{ $excerpt = .excerpt }}
+    {{ $content = replace .content $excerpt "" }}
+{{ end }}
+
+<div class="c-profile-content">
+    <p class="lead mb-3 mt-0">{{ $excerpt }}</p>
+    {{ $content | markdownify }}
+</div>

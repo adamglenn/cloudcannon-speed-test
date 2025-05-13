@@ -1,0 +1,417 @@
+paths:
+  data: data
+  collections: content
+  includes: layouts
+  layouts: layouts
+  static: assets
+  uploads: assets/uploads
+  source: ''
+  archetypes: archetypes
+  assets: assets
+  content: content
+  pages: content
+  publish: public
+  config: ''
+collections_config:
+  pages:
+    path: content
+    description: The main site pages
+    output: true
+    filter: 
+      base: strict
+      exclude:
+        - components.md
+    parse_branch_index: true
+    icon: auto_stories
+    disable_add: false
+    disable_add_folder: false
+    disable_file_actions: false
+    schemas:
+      page:
+        path: .cloudcannon/schemas/page.md
+        hide_extra_inputs: false
+        remove_empty_inputs: false
+        remove_extra_inputs: false
+        icon: auto_stories
+        new_preview_url: /
+      profile--hero:
+        path: .cloudcannon/schemas/profile--hero.md
+        icon: contact_page
+        name: Profile
+        new_preview_url: /frontpage-faculty-member/
+  article-index:
+    path: content/article-index
+    description: Articles under the article-index collection
+    output: true
+    icon: article
+    disable_add: false
+    disable_add_folder: false
+    disable_file_actions: false
+    schemas:
+      article:
+        path: .cloudcannon/schemas/article.md
+        icon: article
+        new_preview_url: /article-index/2022/05/31/article/
+  contact-index:
+    path: content/contact-index
+    description: Contacts under the contact-index collection
+    output: true
+    icon: contact_page
+    disable_add: false
+    disable_add_folder: false
+    disable_file_actions: false
+    schemas:
+      profile:
+        path: .cloudcannon/schemas/profile.md
+        icon: contact_page
+        name: Profile
+        new_preview_url: /contact-index/profile/
+  directory:
+    path: content/directory
+    description: Contacts under the directory collection
+    output: true
+    icon: contact_page
+    disable_add: false
+    disable_add_folder: false
+    disable_file_actions: false
+    schemas:
+      profile:
+        path: .cloudcannon/schemas/profile.md
+        icon: contact_page
+        name: Profile
+        new_preview_url: /directory/person-a/
+  back-page:
+    path: content/back-page
+    description: Articles under the back-page collection
+    output: true
+    icon: article
+    disable_add: false
+    disable_add_folder: false
+    disable_file_actions: false
+    schemas:
+      back-page-article:
+        path: .cloudcannon/schemas/back-page-article.md
+        icon: article
+        name: Article
+        new_preview_url: /back-page/sub-page-a/
+  data:
+    path: data
+    description: Data that is used to populate multiple areas throughout the site
+    output: false
+    icon: data_usage
+    disable_add: true
+    disable_add_folder: true
+    disable_file_actions: false
+collections_config_override: true
+collection_groups:
+  - heading: Site Pages
+    collections:
+      - pages
+  - heading: Articles
+    collections:
+      - article-index
+      - back-page
+  - heading: Contacts
+    collections:
+      - contact-index
+      - directory
+  - heading: Data
+    collections:
+      - data
+_enabled_editors:
+  - visual
+  - content
+  - data
+_inputs:
+  include_breadcrumbs:
+    comment: Select if you want the page breadcrumbs to be shown at the top of the page. Note that only the 'home' crumb will show in live editing - the crumbs from the page url will show on the site.
+  link_classes:
+    comment: Any bootstrap style classes to add to the crumbs
+  home_url:
+    comment: The url for the first link within the breadcrumb
+  home_text:
+    comment: The text for the first link within the breadcrumb
+  bgStyler:
+    comment: Any additional bootstrap classes for the footer
+  limit:
+    comment: Maximum number of pages that should be shown
+    type: number
+    options:
+      min: 1
+      step: 1
+  archive:
+    comment: Format date like yyyy/m (no leading 0 on month). If no date is included, this article will not be included in the archive list.
+  nav_links:
+    type: array
+    options:
+      structures: _structures.nav_item
+    cascade: true
+  sub_nav_links:
+    type: array
+    options:
+      structures: _structures.sub_nav_item
+    cascade: true
+  alternate_logo:
+    type: image
+    comment: >-
+      Optionally, add an alternate logo. The default is the West Verginia
+      University logo.
+    cascade: true
+  co_brand:
+    type: image
+    comment: Optionally, if the site is cobranded, add the cobrand logo here.
+    cascade: true
+  address:
+    type: html
+    options:
+      empty_type: string
+      allow_resize: true
+      allow_custom_markup: false
+      remove_custom_markup: false
+      initial_height: 320
+      image_size_attributes: true
+      bold: true
+    cascade: true
+  publish_date:
+    type: date
+    instance_value: NOW
+  content_blocks[*].name:
+    type: auto
+    comment: The name of this component, used for identifying this sections elements
+    cascade: true
+  start_time:
+    type: auto
+    hidden: all_day
+    cascade: true
+  end_time:
+    type: auto
+    hidden: all_day
+    cascade: true
+  thumbnail_image.url:
+    type: image
+    cascade: true
+  profile_image.url:
+    type: image
+    cascade: true
+  collection:
+    type: select
+    options:
+      allow_empty: true
+      values: data.collections_names
+    comment: Select from the collections currently in the site to display the pages for
+    cascade: true
+  profile:
+    type: url
+    comment: This profile must be within collection selected above
+    cascade: true
+  use_nav:
+    type: auto
+    comment: >-
+      Select to use the structure of the nav sub content for the table of
+      contents
+    cascade: true
+  section:
+    type: select
+    options:
+      allow_empty: true
+      values: data.nav_section_names
+    comment: The title of the nav section to use for the table of contents
+    hidden: '!use_nav'
+    cascade: true
+  quote:
+    type: textarea
+    cascade: true
+  type:
+    type: auto
+    hidden: true
+    cascade: true
+  table_of_contents:
+    type: array
+    options:
+      structures: _structures.table_of_contents_links
+    hidden: use_nav
+    cascade: true
+  schools:
+    type: array
+    hidden: '!enable_school_filter'
+    cascade: true
+  schools[*]:
+    type: text
+    cascade: true
+  program_filter_button:
+    type: auto
+    hidden: '!enable_program_type_filter'
+    cascade: true
+  hero_subheading:
+    type: auto
+    hidden: '!large_hero'
+    cascade: true
+  intro:
+    type: textarea
+    cascade: true
+  hide_collection_pages:
+    type: auto
+    comment: >-
+      The collection pages has complex logic that slows down live editing,
+      select this to hide it in the live preview while editing other areas.
+    cascade: true
+  exclude_pages:
+    type: array
+    comment: >-
+      Select pages that shouldn't be included in this section based on their
+      index (refer to the tip in the visual editor for each pages index)
+    cascade: true
+  exclude_pages[*]:
+    type: number
+    options:
+      min: 1
+      step: 1
+    cascade: true
+  directory_list.button_text:
+    type: auto
+    comment: >-
+      The button text that shows in the final cell of each table row, does not
+      live update but will reflect on the site
+    cascade: true
+  contact_list.button_text:
+    type: auto
+    comment: >-
+      The button text that shows for each person, does not live update but will
+      reflect on the site
+    cascade: true
+_structures:
+  content_blocks:
+    style: modal
+  nav_item:
+    style: select
+    values:
+      - label: Link
+        value:
+          text:
+          link:
+          sub_nav_links:
+  sub_nav_item:
+    style: select
+    values:
+      - label: link
+        value:
+          text:
+          link:
+  table_of_contents_links:
+    style: select
+    values:
+      - label: Link
+        value:
+          url:
+          text:
+_editables:
+  content:
+    allow_custom_markup: false
+    remove_custom_markup: false
+    bold: true
+    bulletedlist: true
+    code: true
+    copyformatting: true
+    embed: true
+    format: p h2 h3 h4 h5 h6
+    horizontalrule: true
+    image: true
+    image_size_attributes: true
+    indent: true
+    italic: true
+    link: true
+    numberedlist: true
+    outdent: true
+    redo: true
+    removeformat: true
+    snippet: true
+    strike: true
+    styles: /assets/scss/custom/_content.scss
+    subscript: true
+    superscript: true
+    table: true
+    underline: true
+    undo: true
+data_config: true
+timezone: US/Eastern
+_snippets:
+  figure:
+    template: hugo_shortcode_named_args
+    inline: false
+    picker_preview:
+      gallery:
+        image: .cloudcannon/shortcode_previews/figure.webp
+        icon: image
+      text: Figure
+      icon: image
+      subtext: An image with an optional caption below
+    preview:
+      view: gallery
+      gallery:
+        image:
+          - key: image_source
+      text:
+        - key: image_alt
+        - Image has no alternative text
+      icon: image
+      metadata:
+        - icon: folder
+          text:
+            - key: image_source
+        - icon: closed_caption
+          text:
+            - key: caption
+    definitions:
+      shortcode_name: figure
+      named_args:
+        - editor_key: image_source
+          type: string
+          optional: false
+        - editor_key: image_alt
+          type: string
+          optional: false
+        - editor_key: caption
+          type: string
+          optional: true
+    _inputs:
+      image_source:
+        type: image
+        cascade: true
+      caption:
+        type: textarea
+        cascade: true
+  blockquote:
+    template: hugo_shortcode_named_args
+    inline: false
+    picker_preview:
+      gallery:
+        image: .cloudcannon/shortcode_previews/blockquote.webp
+        icon: format_quote
+      text: Blockquote
+      icon: format_quote
+    preview:
+      text:
+        - key: quote
+        - Quote
+      icon: format_quote
+      metadata:
+        - text:
+            - key: author
+          icon: account_box
+    definitions:
+      shortcode_name: blockquote
+      named_args:
+        - editor_key: quote
+          type: string
+          optional: false
+        - editor_key: author
+          type: string
+          optional: false
+    _inputs:
+      quote:
+        type: textarea
+        cascade: true
+_snippets_imports:
+  hugo:
+    exclude:
+      - hugo_figure

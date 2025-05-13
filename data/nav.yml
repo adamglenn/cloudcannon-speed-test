@@ -1,0 +1,86 @@
+facebook_url: '#'
+twitter_url: ''
+flickr_url: ''
+instagram_url: ''
+linkedin_url: ''
+syndication_url: ''
+youtube_url: '#'
+github_url: '#'
+masthead:
+  college_link_title: Parent Organization
+  college_link_address: "#"
+  links:
+    - text: Apply
+      link: "#"
+    - text: Visit
+      link: "#"
+    - text: Request Info
+      link: "#"
+  masthead_title: Design System v2 Demo
+  alternate_logo: 
+  co_brand: 
+  co_brand_subtitle: 
+nav_links:
+  - text: Front Page
+    link: '/home'
+    sub_nav_links:
+      - text: Front Page - College or Department
+        link: '/home/front-page-college-or-department'
+      - text: Front Page - Conference or Event
+        link: '/home/front-page-conference-or-event'
+      - text: Front Page - Faculty Member
+        link: '/home/front-page-faculty-member'
+      - text: Front Page - Magazine
+        link: '/home/front-page-magazine'
+  - text: Back Page
+    link: '/back-page'
+    sub_nav_links:
+      - text: Sub-Page A
+        link: '/back-page/sub-page-a'
+      - text: Sub-Page B
+        link: '/back-page/sub-page-b'
+      - text: Sub-Page C
+        link: '/back-page/sub-page-c'
+  - text: Directory
+    link: '/directory'
+    sub_nav_links:
+      - text: Person A
+        link: '/directory/person-a'
+      - text: Person B
+        link: '/directory/person-b'
+      - text: Person C
+        link: '/directory/person-c'
+      - text: Person D
+        link: '/directory/person-d'
+      - text: Person E
+        link: '/directory/person-e'
+  - text: Article Index
+    link: '/article-index/'
+    sub_nav_links:
+      - text: Article
+        link: '/article-index/2022/05/31/article'
+      - text: Magazine Article
+        link: '/article-index/2022/05/30/magazine-article'
+      - text: Article With Image in First Paragraph
+        link: '/article-index/2022/06/08/article-with-image-in-first-paragraph'
+  - text: Contact Index
+    link: '/contact-index/'
+    sub_nav_links:
+      - text: Profile
+        link: '/contact-index/profile'
+      - text: Faculty Member
+        link: '/contact-index/faculty-member'
+      - text: Student
+        link: '/contact-index/student'
+  - text: Landing Page
+    link: '/landing-page/'
+    sub_nav_links:
+  - text: Programs
+    link: '/programs'
+    sub_nav_links:
+  - text: Gallery
+    link: '/gallery/'
+    sub_nav_links:
+  - text: Contact
+    link: '/contact/'
+    sub_nav_links:

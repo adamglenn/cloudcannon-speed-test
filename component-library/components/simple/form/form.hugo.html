@@ -1,0 +1,10 @@
+<form class="c-form px-3 py-4">
+    {{ if .heading }}{{ partial "bookshop" (slice "generic/heading" (dict "text" .heading "name" "" "hierarchy" "h2" "classes" "wvu-bar wvu-bar--bottom mb-3") ) }}{{ end }}
+
+    {{ range .inputs }}
+        <div class="mb-2">
+            {{ partial "bookshop" . }}
+        </div>
+    {{ end }}
+    <button type="submit" class="btn btn-primary">{{ .button_text }}</button>
+</form>

@@ -1,0 +1,74 @@
+<section id="{{ .name }}" aria-label="{{ .name }}-label" class="c-calendar-events py-5 ">
+    <div class="wvu-z-index-content">
+      <div class="container wvu-z-index-content">
+        {{ partial "bookshop" (slice "generic/heading" (dict "text" .heading "name" (print .name "-label") "hierarchy" "h2" "classes" "display-3 wvu-shout text-wvu-blue") ) }}
+        <p class="h3 helvetica-neue-light text-wvu-blue mb-4">{{ .subheading }}</p>
+
+        <div>
+          <ul class="row justify-content-left list-unstyled">
+
+            {{/*  Helpful tips depending on what data is present/accessible  */}}
+            {{ if not site.Data }}
+              {{ partial "bookshop" (slice "generic/collection-labels-tooltip" (dict "text" "This component will not display events inside the bookshop browser" ) ) }}
+            {{ else if not site.Data.events }}
+              {{ partial "bookshop" (slice "generic/collection-labels-tooltip" (dict "text" "To see events here define them in data/events inside the theme project/repo" ) ) }}
+            {{ else }}
+              {{ partial "bookshop" (slice "generic/collection-labels-tooltip" (dict "text" "Add/remove events inside data/events inside the theme project/repo" ) ) }}
+            {{ end }}
+            
+            {{ with site.Data.events.events }}
+              {{ range $index, $event := first 3 .}}
+                  <li class="col-sm-6 col-md-4 mb-4">
+                    <div class="card shadow h-100 bg-white">
+                      <div class="bg-wvu-gold pt-1">
+                        <div class="card-body bg-white  p-3">
+                          <div class="row">
+                            <div class="col-3 text-center">
+                              <p>
+                                <span class="eventMonth d-block small text-uppercase">{{ .date | time.Format "Jan" }}</span>
+                                <span class="eventDay d-block helvetica-neue-light h2" id="aria__date--{{ $index }}">{{ .date | time.Format "2" }}</span>
+                              </p>
+                            </div>
+                            <div class="col-9">
+                              <span class="eventInfo">
+                                <h2 class="eventName card-title h5 mb-1 iowan-old-style-black-italic mb-1">
+                                  <a class="text-wvu-neutral--black text-decoration-none" rel="noopener" href="{{ .url }}" aria-label="aria__title--{{ $index }} aria__date--{{ $index }}">
+                                    <span id="aria__title--{{ $index }}">
+                                      {{ .title }}
+                                    </span>
+                                  </a>
+                                </h2>
+                                <p class="lh-sm">
+                                  <span class="eventTime" title="{{ .date }} {{ if not .all_day }}{{ .start_time }} to {{ .date }} {{ .end_time }}{{ end }}">
+                                    <strong>
+                                      {{ if .all_day }}All Day{{ else }}{{ .start_time | upper }} - {{ .end_time | upper }}{{ end }}<br>{{ .location }}
+                                    </strong>
+                                  </span>
+                                </p>
+                                <p class="card-text small">
+                                  {{ .sub_text }}
+                                </p>
+                                <a href="{{ .url }}" class="btn btn-primary btn-sm">Event Info
+                                  <span class="sr-only">: {{ .title }}</span>
+                                </a>
+                              </span>
+                            </div>
+                          
+                          
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              {{ end }}
+            {{ end }}
+          </ul>
+        </div>
+
+        {{ if .postscript }}
+            <p class="mb-0">{{ .postscript | safeHTML }}</p>
+        {{ end }}
+        
+      </div>
+    </div>
+  </section>
