@@ -1,6 +1,5 @@
 ---
 _schema: page
-aliases: ["/home/"]
 title: Home
 description: >-
   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
@@ -17,7 +16,7 @@ content_blocks:
       hierarchy: h1
     body_text: >-
       This is a simple hero unit, a simple jumbotron-style component for calling
-      extra attention to featured content or information.
+      extra attention to featured content or information. How fast am I?
     button:
       _bookshop_name: generic/button
       text: Button text
@@ -29,7 +28,7 @@ content_blocks:
     content_alignment: left
   - _bookshop_name: section/page-collection
     name: page-collection-1
-    heading: Page collection headline
+    heading: Page collection headline How fast am I?
     subheading: Subhead goes here.
     hide_collection_pages: true
     collection: content
@@ -85,4 +84,6 @@ content_blocks:
       - text: Mounty Bounty Deposits
         url: https://wvu.teamdynamix.com/TDClient/KB/ArticleDet?ID=39990
     postscript: View <a href="#">All quicklinks</a>.
+aliases:
+  - /home/
 ---
